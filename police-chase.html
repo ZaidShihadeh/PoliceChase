@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Chase Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #f4f4f4;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<script>
+// Get canvas and context
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Set canvas size
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Car variables
+let carX = canvas.width / 2 - 50;
+let carY = canvas.height - 100;
+let carWidth = 100;
+let carHeight = 60;
+let carSpeed = 5;
+let carImage = new Image();
+carImage.src = 'https://image.shutterstock.com/image-vector/car-icon-illustration-260nw-1416856788.jpg';  // Replace with your car image URL
+
+// Key press tracking
+let leftKey = false;
+let rightKey = false;
+let upKey = false;
+let downKey = false;
+
+// Event listeners for keys
+document.addEventListener("keydown", function(event) {
+    if (event.key == "ArrowLeft") {
+        leftKey = true;
+    }
+    if (event.key == "ArrowRight") {
+        rightKey = true;
+    }
+    if (event.key == "ArrowUp") {
+        upKey = true;
+    }
+    if (event.key == "ArrowDown") {
+        downKey = true;
+    }
+});
+
+document.addEventListener("keyup", function(event) {
+    if (event.key == "ArrowLeft") {
+        leftKey = false;
+    }
+    if (event.key == "ArrowRight") {
+        rightKey = false;
+    }
+    if (event.key == "ArrowUp") {
+        upKey = false;
+    }
+    if (event.key == "ArrowDown") {
+        downKey = false;
+    }
+});
+
+// Main game loop
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Move car based on keys
+    if (leftKey && carX > 0) carX -= carSpeed;
+    if (rightKey && carX < canvas.width - carWidth) carX += carSpeed;
+    if (upKey && carY > 0) carY -= carSpeed;
+    if (downKey && carY < canvas.height - carHeight) carY += carSpeed;
+
+    // Draw car
+    ctx.drawImage(carImage, carX, carY, carWidth, carHeight);
+
+    requestAnimationFrame(gameLoop);
+}
+
+// Start the game loop
+gameLoop();
+</script>
+
+</body>
+</html>
